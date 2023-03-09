@@ -1,0 +1,15 @@
+FROM python:3.9-slim
+
+COPY --from=apache/beam_python3.9_sdk:2.41.0 /opt/apache/beam /opt/apache/beam
+
+WORKDIR /pipeline
+
+COPY poetry.lock pyproject.toml ./
+
+ENV POETRY_VIRTUALENVS_CREATE=false
+
+RUN pip install poetry && poetry install --without dev --all-extras --no-root --no-interaction --no-ansi
+
+COPY . .
+
+ENTRYPOINT ["/opt/apache/beam/boot"]

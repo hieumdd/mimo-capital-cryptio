@@ -1,0 +1,15 @@
+ARG GH_REF=master
+
+FROM gcr.io/dataflow-templates-base/python39-template-launcher-base as template_launcher
+
+FROM us-docker.pkg.dev/mimo-capital-1/docker-1/mimo-capital-cryptio/container:${GH_REF}
+
+COPY --from=template_launcher /opt/google/dataflow/python_template_launcher /opt/google/dataflow/python_template_launcher
+
+WORKDIR /template
+
+COPY . .
+
+ENV FLEX_TEMPLATE_PYTHON_PY_FILE="/template/main.py"
+
+ENTRYPOINT ["/opt/google/dataflow/python_template_launcher"]

@@ -1,0 +1,18 @@
+services:
+  container:
+    image: us-docker.pkg.dev/mimo-capital-1/docker-1/mimo-capital-cryptio/container:${GH_REF}
+    build:
+      dockerfile: Dockerfile.container
+      context: .
+      args:
+        GH_REF: ${GH_REF}
+    container_name: mimo-capital-cryptio-container
+
+  template:
+    image: us-docker.pkg.dev/mimo-capital-1/docker-1/mimo-capital-cryptio/template:${GH_REF}
+    build:
+      dockerfile: Dockerfile.template
+      context: .
+      args:
+        GH_REF: ${GH_REF}
+    container_name: mimo-capital-cryptio-template

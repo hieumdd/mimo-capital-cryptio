@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "mimo-capital-cryptio"
+version = "1.0.0"
+description = ""
+authors = ["HM <hieumdd@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.9"
+google-cloud-dataflow-client = "^0.8.2"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.1.0"
+mypy = "^1.0.0"
+pytest = "^7.2.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
