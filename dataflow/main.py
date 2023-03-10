@@ -38,8 +38,7 @@ def main(args: argparse.Namespace, beam_args: list[str]):
             p
             | f"{asset.table}/initialize" >> beam.Create(asset_api_keys)
             | f"{asset.table}/get" >> beam.ParDo(GetCryptioApi(asset.endpoint))
-            | f"{asset.table}/flatten" >> beam.FlatMap(lambda x: x)
-            | f"{asset.table}/transform" >> beam.Map(asset.transform_fn)
+            | f"{asset.table}/flatten" >> beam.FlatMap(asset.transform_fn)
             | f"{asset.table}/load"
             >> beam.io.WriteToBigQuery(
                 asset.table,
@@ -60,8 +59,7 @@ def main(args: argparse.Namespace, beam_args: list[str]):
             p
             | f"{movement.table}/initialize" >> beam.Create(movement_api_keys)
             | f"{movement.table}/get" >> beam.ParDo(GetCryptioApi(movement.endpoint))
-            | f"{movement.table}/flatten" >> beam.FlatMap(lambda x: x)
-            | f"{movement.table}/transform" >> beam.Map(movement.transform_fn)
+            | f"{movement.table}/flatten" >> beam.FlatMap(asset.transform_fn)
             | f"{movement.table}/load"
             >> beam.io.WriteToBigQuery(
                 movement.table,
