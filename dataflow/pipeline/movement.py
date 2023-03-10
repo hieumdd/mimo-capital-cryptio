@@ -4,25 +4,22 @@ from pipeline.interface import CryptioTable
 movement = CryptioTable(
     table="Movement",
     endpoint="movement",
-    transform_fn=lambda rows: [
-        {
-            "id": row.get("id"),
-            "transaction_id": row.get("transaction_id"),
-            "transaction_hash": row.get("transaction_hash"),
-            "transaction_date": row.get("transaction_date"),
-            "source_id": row.get("source_id"),
-            "other_party": {
-                "address": row["other_party"].get("address"),
-                "blockchain": row["other_party"].get("blockchain"),
-            }
-            if row.get("other_party")
-            else {},
-            "volume": row.get("volume"),
-            "direction": row.get("direction"),
-            "asset": row.get("asset"),
+    transform_fn=lambda row: {
+        "id": row.get("id"),
+        "transaction_id": row.get("transaction_id"),
+        "transaction_hash": row.get("transaction_hash"),
+        "transaction_date": row.get("transaction_date"),
+        "source_id": row.get("source_id"),
+        "other_party": {
+            "address": row["other_party"].get("address"),
+            "blockchain": row["other_party"].get("blockchain"),
         }
-        for row in rows
-    ],
+        if row.get("other_party")
+        else {},
+        "volume": row.get("volume"),
+        "direction": row.get("direction"),
+        "asset": row.get("asset"),
+    },
     schema=[
         {"name": "id", "type": "STRING"},
         {"name": "transaction_id", "type": "STRING"},

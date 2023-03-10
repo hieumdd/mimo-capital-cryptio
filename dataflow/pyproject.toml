@@ -10,6 +10,7 @@ python = "~3.9"
 apache-beam = {version = "2.41", extras = ["gcp"]}
 google-cloud-secret-manager = "2.12.5"
 httpx = "^0.23.3"
+tenacity = "^8.2.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.1.0"

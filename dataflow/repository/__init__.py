@@ -1,5 +1,9 @@
+import logging
+from typing import Optional
+
 import apache_beam as beam
 import httpx
+from tenacity import retry, retry_if_exception_type, stop_after_delay, wait_exponential
 
 
 class GetCryptioApi(beam.DoFn):
@@ -14,20 +18,33 @@ class GetCryptioApi(beam.DoFn):
         )
 
     def process(self, api_key: str):
-        cursor = None
-
-        while True:
+        @retry(
+            reraise=True,
+            retry=retry_if_exception_type(httpx.HTTPStatusError),
+            stop=stop_after_delay(60 * 5),
+            wait=wait_exponential(multiplier=1, min=1, max=16),
+        )
+        def request(cursor: Optional[str]):
             r = self.http.get(
                 self.endpoint,
                 params={"cursor": cursor},
                 headers={"cryptio-api-key": api_key},
             )
             r.raise_for_status()
-            response_data = r.json()
-            data = response_data["data"]
+            return r.json()
 
-            if data:
-                cursor = response_data["cursor"]
-                yield data
-            else:
+        cursor = None
+
+        while True:
+            logging.info(f"{self.endpoint}/{api_key}/{cursor}")
+
+            response_data = request(cursor)
+
+            _cursor = response_data["cursor"]
+
+            yield response_data["data"]
+
+            if not _cursor:
                 break
+            else:
+                cursor = _cursor
