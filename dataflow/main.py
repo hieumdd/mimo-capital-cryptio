@@ -51,6 +51,7 @@ def main(args: argparse.Namespace, beam_args: list[str]):
         )
 
         movement_api_keys = [
+            get_secret("cryptio-MI"),
             get_secret("cryptio-MCAG"),
             get_secret("cryptio-TPL"),
             get_secret("cryptio-DAO"),
