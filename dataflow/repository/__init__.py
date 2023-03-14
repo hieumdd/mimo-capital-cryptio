@@ -42,7 +42,7 @@ class GetCryptioApi(beam.DoFn):
 
             _cursor = response_data["cursor"]
 
-            yield response_data["data"]
+            yield {**response_data["data"], "api_key": api_key}
 
             if not _cursor:
                 break

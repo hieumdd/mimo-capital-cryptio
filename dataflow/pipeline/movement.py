@@ -37,5 +37,6 @@ movement = CryptioTable(
         {"name": "volume", "type": "STRING"},
         {"name": "direction", "type": "STRING"},
         {"name": "asset", "type": "STRING"},
+        {"name": "api_key", "type": "STRING"},
     ],
 )

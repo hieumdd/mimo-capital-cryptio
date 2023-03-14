@@ -31,5 +31,6 @@ asset = CryptioTable(
                 {"name": "blockchain", "type": "STRING"},
             ],
         },
+        {"name": "api_key", "type": "STRING"},
     ],
 )
