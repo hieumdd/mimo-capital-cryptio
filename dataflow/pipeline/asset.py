@@ -17,6 +17,7 @@ asset = CryptioTable(
         ]
         if row.get("addresses")
         else [],
+        "api_key": row.get("api_key"),
     },
     schema=[
         {"name": "id", "type": "STRING"},

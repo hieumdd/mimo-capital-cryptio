@@ -19,6 +19,7 @@ movement = CryptioTable(
         "volume": row.get("volume"),
         "direction": row.get("direction"),
         "asset": row.get("asset"),
+        "api_key": row.get("api_key"),
     },
     schema=[
         {"name": "id", "type": "STRING"},
